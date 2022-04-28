@@ -93,7 +93,7 @@ public class PanelControl extends GridPanel {
 
         Button addToFirstSet = new Button(
                 window, false, backgroundColor, PANEL_PADDING,
-                6, 7, 0, 3, 3, 1, "Добавить в первое\nмножество",
+                6, 7, 0, 3, 3, 1, "Добавить точку",
                 true, true);
         addToFirstSet.setOnClick(() -> {
             // если числа введены верно
@@ -107,24 +107,6 @@ public class PanelControl extends GridPanel {
                 );
         });
         buttons.add(addToFirstSet);
-
-        Button addToSecondSet = new Button(
-                window, false, backgroundColor, PANEL_PADDING,
-                6, 7, 3, 3, 3, 1, "Добавить во второе\nмножество",
-                true, true);
-        addToSecondSet.setOnClick(() -> {
-            // если числа введены верно
-            if (!xField.hasValidDoubleValue()) {
-                PanelLog.warning("X координата введена неверно");
-            } else if (!yField.hasValidDoubleValue())
-                PanelLog.warning("Y координата введена неверно");
-            else {
-                PanelRendering.task.addPoint(
-                        new Vector2d(xField.doubleValue(), yField.doubleValue()), Point.PointSet.SECOND_SET
-                );
-            }
-        });
-        buttons.add(addToSecondSet);
 
         // случайное добавление
         Label cntLabel = new Label(window, false, backgroundColor, PANEL_PADDING,

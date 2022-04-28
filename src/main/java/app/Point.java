@@ -23,7 +23,6 @@ public class Point {
         /**
          * Второе
          */
-        SECOND_SET
     }
 
     /**
@@ -57,7 +56,6 @@ public class Point {
     public int getColor() {
         return switch (pointSet) {
             case FIRST_SET -> Misc.getColor(0xCC, 0x00, 0x00, 0xFF);
-            case SECOND_SET -> Misc.getColor(0xCC, 0x00, 0xFF, 0x0);
         };
     }
 
@@ -90,7 +88,6 @@ public class Point {
     public String getSetName() {
         return switch (pointSet) {
             case FIRST_SET -> "Первое множество";
-            case SECOND_SET -> "Второе множество";
         };
     }
 

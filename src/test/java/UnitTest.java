@@ -49,9 +49,7 @@ public class UnitTest {
 
         points.add(new Point(new Vector2d(1, 1), Point.PointSet.FIRST_SET));
         points.add(new Point(new Vector2d(-1, 1), Point.PointSet.FIRST_SET));
-        points.add(new Point(new Vector2d(-1, 1), Point.PointSet.SECOND_SET));
         points.add(new Point(new Vector2d(2, 1), Point.PointSet.FIRST_SET));
-        points.add(new Point(new Vector2d(1, 2), Point.PointSet.SECOND_SET));
         points.add(new Point(new Vector2d(1, 2), Point.PointSet.FIRST_SET));
 
         Set<Vector2d> crossedCoords = new HashSet<>();
@@ -96,8 +94,6 @@ public class UnitTest {
         ArrayList<Point> points = new ArrayList<>();
 
         points.add(new Point(new Vector2d(1, 1), Point.PointSet.FIRST_SET));
-        points.add(new Point(new Vector2d(2, 1), Point.PointSet.SECOND_SET));
-        points.add(new Point(new Vector2d(2, 2), Point.PointSet.SECOND_SET));
         points.add(new Point(new Vector2d(1, 2), Point.PointSet.FIRST_SET));
 
         Set<Vector2d> crossedCoords = new HashSet<>();

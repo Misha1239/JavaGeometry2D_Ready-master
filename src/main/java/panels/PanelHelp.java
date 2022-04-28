@@ -56,8 +56,7 @@ public class PanelHelp extends GridPanel {
         shortcuts.add(new Shortcut("1", true, "Во весь экран/Обычный размер"));
         shortcuts.add(new Shortcut("2", true, "Полупрозрачное окно/обычное"));
         shortcuts.add(new Shortcut("Esc", false, "Закрыть окно"));
-        shortcuts.add(new Shortcut("ЛКМ", false, "Добавить в первое множество"));
-        shortcuts.add(new Shortcut("ПКМ", false, "Добавить во второе множество"));
+        shortcuts.add(new Shortcut("ЛКМ", false, "Добавить точку"));
     }
 
     /**

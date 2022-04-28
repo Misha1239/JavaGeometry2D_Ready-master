@@ -27,9 +27,11 @@ public class Task {
      */
     public static final String TASK_TEXT = """
             ПОСТАНОВКА ЗАДАЧИ:
-            Заданы два множества точек в вещественном
-            пространстве. Требуется построить пересечение
-            и разность этих множеств""";
+            На плоскости задано множество точек. 
+            Найти среди них такие две пары,
+            что точка пересечения прямых,
+            проведенных через эти пары точек,
+            находится ближе всего к началу координат.""";
 
 
     /**
@@ -157,8 +159,6 @@ public class Task {
         if (mouseButton.equals(MouseButton.PRIMARY)) {
             addPoint(taskPos, Point.PointSet.FIRST_SET);
             // если правая, то во второе
-        } else if (mouseButton.equals(MouseButton.SECONDARY)) {
-            addPoint(taskPos, Point.PointSet.SECOND_SET);
         }
     }
 
@@ -177,8 +177,6 @@ public class Task {
             // сработает примерно в половине случаев
             if (ThreadLocalRandom.current().nextBoolean())
                 addPoint(pos, Point.PointSet.FIRST_SET);
-            else
-                addPoint(pos, Point.PointSet.SECOND_SET);
         }
     }
 
