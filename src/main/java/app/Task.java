@@ -63,6 +63,15 @@ public class Task {
      * Список точек в пересечении
      */
     private final ArrayList<Point> crossed;
+    private ArrayList<Point> cross;
+    private ArrayList<Point> mp1;
+    private ArrayList<Point> mp2;
+    private ArrayList<Point> mp3;
+    private ArrayList<Point> mp4;
+    public Point point1;
+    public Point point2;
+    public Point point3;
+    public Point point4;
     /**
      * Список точек в разности
      */
@@ -226,17 +235,6 @@ public class Task {
     public void clear() {
         points.clear();
         solved = false;
-    }
-
-    /**
-     * Решить задачу
-     */
-    public void solve() {
-        // очищаем списки
-        crossed.clear();
-        single.clear();
-
-        // перебираем пары точек
         for (int i = 0; i < points.size(); i++) {
             for (int j = i + 1; j < points.size(); j++) {
                 // сохраняем точки
@@ -252,11 +250,112 @@ public class Task {
             }
         }
 
-        /// добавляем вс
-        for (Point point : points)
-            if (!crossed.contains(point))
-                single.add(point);
+    }
 
+    /**
+     * Решить задачу
+     */
+    public void solve() {
+        // очищаем списки
+        crossed.clear();
+        single.clear();
+
+        // перебираем пары точек
+        double xa,ya,xb,yb,k,a11=0;
+        double xc,yc,xd,yd,k1,a1=0;
+        int fl=0;
+        double x=90,y=90;
+        for (int i = 0; i < points.size(); i++) {
+            for (int j = 0; j < points.size(); j++) {
+                // сохраняем точки
+                if (i != j) {
+                    Point a = points.get(i);
+                    xa = a.getPos().x;
+                    ya = a.getPos().y;
+                    Point b = points.get(j);
+                    xb = b.getPos().x;
+                    yb = b.getPos().y;
+                    if (xa != xb) {
+                        a11 = (ya - yb) / (xa - xb);
+                    } else {
+                        fl += 1;
+                    }
+                    k = ya - a11 * xa;
+                } else {
+                    continue;
+                }
+                for (int l = 0; l < points.size(); l++) {
+                    for (int m = 0; m < points.size(); m++) {
+                        if (m != l && (m != i && m != j || l != i && l != j)) {
+                            Point c = points.get(m);
+                            xc = c.getPos().x;
+                            yc = c.getPos().y;
+                            Point d = points.get(l);
+                            xd = d.getPos().x;
+                            yd = d.getPos().y;
+                            if (xc != xd) {
+                                a1 = (yc - yd) / (xc - xd);
+                            } else {
+                                fl += 2;
+                            }
+                            k1 = yc - a1 * xc;
+                            if (fl == 0) {
+                                if (a11 != a1) {
+                                    x = (k1 - k) / (a11 - a1);
+                                    y = a11 * x + k;
+                                }
+                            } else if (fl == 1) {
+                                x = xa;
+                                y = a1 * xa + k1;
+                            } else if (fl == 2) {
+                                x = xc;
+                                y = a11 * xc + k;
+                            }
+                            if (fl < 3) {
+                                Vector2d v = new Vector2d(x, y);
+                                Point p=new Point(v, Point.PointSet.FIRST_SET);
+                                cross.add(p);
+                                Vector2d v1 = new Vector2d(xa, ya);
+                                Point p1=new Point(v1, Point.PointSet.FIRST_SET);
+                                mp1.add(p1);
+                                Vector2d v2 = new Vector2d(xb, yb);
+                                Point p2=new Point(v2, Point.PointSet.FIRST_SET);
+                                mp1.add(p2);
+                                Vector2d v3 = new Vector2d(xc, yc);
+                                Point p3=new Point(v3, Point.PointSet.FIRST_SET);
+                                mp1.add(p3);
+                                Vector2d v4 = new Vector2d(xd, yd);
+                                Point p4=new Point(v4, Point.PointSet.FIRST_SET);
+                                mp1.add(p4);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        double xz,yz;
+        double save= 100000;
+        for (int i = 0; i < cross.size(); i++) {
+            Point z=cross.get(i);
+            xz = z.getPos().x;
+            yz = z.getPos().y;
+            if (Math.sqrt(xz*xz+yz*yz)<save){
+                save=Math.sqrt(xz*xz+yz*yz);
+            }
+        }
+        for (int i = 0; i < cross.size(); i++) {
+            Point z=cross.get(i);
+            xz = z.getPos().x;
+            yz = z.getPos().y;
+            if (Math.sqrt(xz*xz+yz*yz)==save){
+                crossed.add(z);
+                point1=mp1.get(i);
+                point2=mp2.get(i);
+                point3=mp3.get(i);
+                point4=mp4.get(i);
+                break;
+            }
+        }
         // задача решена
         solved = true;
     }
