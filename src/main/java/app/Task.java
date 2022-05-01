@@ -37,6 +37,7 @@ public class Task {
     /**
      *  коэффициент колёсика мыши
      */
+    public Point des;
     private static final float WHEEL_SENSITIVE = 0.001f;
 
     /**
@@ -63,11 +64,10 @@ public class Task {
      * Список точек в пересечении
      */
     private final ArrayList<Point> crossed;
-    private ArrayList<Point> cross;
-    private ArrayList<Point> mp1;
-    private ArrayList<Point> mp2;
-    private ArrayList<Point> mp3;
-    private ArrayList<Point> mp4;
+    private ArrayList<Point> mp1= new ArrayList<Point>();
+    private ArrayList<Point> mp2=new ArrayList<Point>();
+    private ArrayList<Point> mp3=new ArrayList<Point>();
+    private ArrayList<Point> mp4=new ArrayList<Point>();
     public Point point1;
     public Point point2;
     public Point point3;
@@ -122,22 +122,32 @@ public class Task {
         // создаём перо
         try (var paint = new Paint()) {
             for (Point p : points) {
-                if (!solved) {
-                    paint.setColor(p.getColor());
-                } else {
-                    if (crossed.contains(p))
-                        paint.setColor(CROSSED_COLOR);
-                    else
-                        paint.setColor(SUBTRACTED_COLOR);
-                }
-                // y-координату разворачиваем, потому что у СК окна ось y направлена вниз,
-                // а в классическом представлении - вверх
+                paint.setColor(p.getColor());
                 Vector2i windowPos = windowCS.getCoords(p.pos.x, p.pos.y, ownCS);
                 // рисуем точку
                 canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
             }
-        }
-        canvas.restore();
+            if (solved){
+                // y-координату разворачиваем, потому что у СК окна ось y направлена вниз,
+                // а в классическом представлении - вверх
+                Vector2i windowPos = windowCS.getCoords(des.pos.x, des.pos.y, ownCS);
+                // рисуем точку
+                canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
+                paint.setColor(CROSSED_COLOR);
+                paint.setStrokeWidth(5);
+                // y-координату разворачиваем, потому что у СК окна ось y направлена вниз,
+                // а в классическом представлении - вверх
+                Vector2i windowPos2 = windowCS.getCoords(point1.getPos().x, point1.getPos().y, ownCS);
+                Vector2i windowPos3 = windowCS.getCoords(point2.getPos().x, point2.getPos().y, ownCS);
+                Vector2i windowPos4 = windowCS.getCoords(point3.getPos().x, point3.getPos().y, ownCS);
+                Vector2i windowPos5 = windowCS.getCoords(point4.getPos().x, point4.getPos().y, ownCS);
+                // рисуем точку
+                canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
+                canvas.drawLine((float) windowPos2.x, (float) windowPos2.y, (float) windowPos3.x, (float) windowPos3.y, paint);
+                canvas.drawLine((float) windowPos4.x, (float) windowPos4.y, (float) windowPos5.x, (float) windowPos5.y, paint);
+            }
+            }
+            canvas.restore();
     }
 
     /**
@@ -259,7 +269,10 @@ public class Task {
         // очищаем списки
         crossed.clear();
         single.clear();
-
+        mp1.clear();
+        mp2.clear();
+        mp3.clear();
+        mp4.clear();
         // перебираем пары точек
         double xa,ya,xb,yb,k,a11=0;
         double xc,yc,xd,yd,k1,a1=0;
@@ -314,7 +327,7 @@ public class Task {
                             if (fl < 3) {
                                 Vector2d v = new Vector2d(x, y);
                                 Point p=new Point(v, Point.PointSet.FIRST_SET);
-                                cross.add(p);
+                                crossed.add(p);
                                 Vector2d v1 = new Vector2d(xa, ya);
                                 Point p1=new Point(v1, Point.PointSet.FIRST_SET);
                                 mp1.add(p1);
@@ -335,20 +348,20 @@ public class Task {
         }
         double xz,yz;
         double save= 100000;
-        for (int i = 0; i < cross.size(); i++) {
-            Point z=cross.get(i);
+        for (int i = 0; i < crossed.size(); i++) {
+            Point z=crossed.get(i);
             xz = z.getPos().x;
             yz = z.getPos().y;
             if (Math.sqrt(xz*xz+yz*yz)<save){
                 save=Math.sqrt(xz*xz+yz*yz);
             }
         }
-        for (int i = 0; i < cross.size(); i++) {
-            Point z=cross.get(i);
+        for (int i = 0; i < crossed.size(); i++) {
+            Point z=crossed.get(i);
             xz = z.getPos().x;
             yz = z.getPos().y;
             if (Math.sqrt(xz*xz+yz*yz)==save){
-                crossed.add(z);
+                des=z;
                 point1=mp1.get(i);
                 point2=mp2.get(i);
                 point3=mp3.get(i);
