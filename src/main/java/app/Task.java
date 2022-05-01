@@ -134,20 +134,24 @@ public class Task {
                 // рисуем точку
                 canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
                 paint.setColor(CROSSED_COLOR);
-                paint.setStrokeWidth(5);
+                paint.setStrokeWidth(3);
                 // y-координату разворачиваем, потому что у СК окна ось y направлена вниз,
                 // а в классическом представлении - вверх
                 Vector2i windowPos2 = windowCS.getCoords(point1.getPos().x, point1.getPos().y, ownCS);
                 Vector2i windowPos3 = windowCS.getCoords(point2.getPos().x, point2.getPos().y, ownCS);
                 Vector2i windowPos4 = windowCS.getCoords(point3.getPos().x, point3.getPos().y, ownCS);
                 Vector2i windowPos5 = windowCS.getCoords(point4.getPos().x, point4.getPos().y, ownCS);
+                Vector2i windowPos6 = windowCS.getCoords(0,0, ownCS);
                 // рисуем точку
-                canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
                 canvas.drawLine((float) windowPos2.x, (float) windowPos2.y, (float) windowPos3.x, (float) windowPos3.y, paint);
                 canvas.drawLine((float) windowPos4.x, (float) windowPos4.y, (float) windowPos5.x, (float) windowPos5.y, paint);
+                paint.setColor(SCROLLER_COLOR);
+                canvas.drawLine((float) windowPos.x, (float) windowPos.y, (float) windowPos6.x, (float) windowPos6.y, paint);
+                paint.setColor(SUBTRACTED_COLOR);
+                canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
             }
-            }
-            canvas.restore();
+        }
+        canvas.restore();
     }
 
     /**
@@ -300,6 +304,7 @@ public class Task {
                 for (int l = 0; l < points.size(); l++) {
                     for (int m = 0; m < points.size(); m++) {
                         if (m != l && (m != i && m != j || l != i && l != j)) {
+                            fl=0;
                             Point c = points.get(m);
                             xc = c.getPos().x;
                             yc = c.getPos().y;
@@ -333,13 +338,13 @@ public class Task {
                                 mp1.add(p1);
                                 Vector2d v2 = new Vector2d(xb, yb);
                                 Point p2=new Point(v2, Point.PointSet.FIRST_SET);
-                                mp1.add(p2);
+                                mp2.add(p2);
                                 Vector2d v3 = new Vector2d(xc, yc);
                                 Point p3=new Point(v3, Point.PointSet.FIRST_SET);
-                                mp1.add(p3);
+                                mp3.add(p3);
                                 Vector2d v4 = new Vector2d(xd, yd);
                                 Point p4=new Point(v4, Point.PointSet.FIRST_SET);
-                                mp1.add(p4);
+                                mp4.add(p4);
                             }
                         }
                     }
@@ -483,3 +488,4 @@ public class Task {
     }
 
 }
+
