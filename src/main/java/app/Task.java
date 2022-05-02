@@ -122,7 +122,7 @@ public class Task {
         // создаём перо
         try (var paint = new Paint()) {
             for (Point p : points) {
-                paint.setColor(p.getColor());
+                paint.setColor(HELP_TEXT);
                 Vector2i windowPos = windowCS.getCoords(p.pos.x, p.pos.y, ownCS);
                 // рисуем точку
                 canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
@@ -134,7 +134,7 @@ public class Task {
                 // рисуем точку
                 canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
                 paint.setColor(CROSSED_COLOR);
-                paint.setStrokeWidth(3);
+                paint.setStrokeWidth(2);
                 // y-координату разворачиваем, потому что у СК окна ось y направлена вниз,
                 // а в классическом представлении - вверх
                 Vector2i windowPos2 = windowCS.getCoords(point1.getPos().x, point1.getPos().y, ownCS);
@@ -143,9 +143,12 @@ public class Task {
                 Vector2i windowPos5 = windowCS.getCoords(point4.getPos().x, point4.getPos().y, ownCS);
                 Vector2i windowPos6 = windowCS.getCoords(0,0, ownCS);
                 // рисуем точку
-                canvas.drawLine((float) windowPos2.x, (float) windowPos2.y, (float) windowPos3.x, (float) windowPos3.y, paint);
-                canvas.drawLine((float) windowPos4.x, (float) windowPos4.y, (float) windowPos5.x, (float) windowPos5.y, paint);
+                canvas.drawLine((float) windowPos2.x, (float) windowPos2.y, (float) windowPos.x, (float) windowPos.y, paint);
+                canvas.drawLine((float) windowPos3.x, (float) windowPos3.y, (float) windowPos.x, (float) windowPos.y, paint);
+                canvas.drawLine((float) windowPos4.x, (float) windowPos4.y, (float) windowPos.x, (float) windowPos.y, paint);
+                canvas.drawLine((float) windowPos5.x, (float) windowPos5.y, (float) windowPos.x, (float) windowPos.y, paint);
                 paint.setColor(SCROLLER_COLOR);
+                paint.setStrokeWidth(4);
                 canvas.drawLine((float) windowPos.x, (float) windowPos.y, (float) windowPos6.x, (float) windowPos6.y, paint);
                 paint.setColor(SUBTRACTED_COLOR);
                 canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
@@ -486,6 +489,5 @@ public class Task {
             canvas.restore();
         }
     }
-
 }
 
